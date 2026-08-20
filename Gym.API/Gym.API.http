@@ -1,0 +1,18 @@
+GET http://localhost:5140/exercises
+###
+POST http://localhost:5140/exercises
+Content-Type: application/json
+
+{
+    "name": "Deadlift",
+    "reps": 8
+}
+
+###
+PUT http://localhost:5140/exercises/1
+ Content-Type: application/json
+
+{
+    "name": "Deadlift",
+    "reps": 1
+}
