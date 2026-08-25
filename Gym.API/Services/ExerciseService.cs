@@ -24,4 +24,17 @@ public class ExerciseService(GymContext dbContext)
         return exercise;
     }
 
+    public async Task<Exercise?> UpdateExerciseAsync(int id, UpdateExerciseDto updatedExercise)
+    {
+        var existingExercise = await dbContext.Exercises.FindAsync(id);
+        if (existingExercise is null)
+        {
+            return null;
+        }
+        existingExercise.Name = updatedExercise.Name;
+        existingExercise.Reps = updatedExercise.Reps;
+        await dbContext.SaveChangesAsync();
+
+        return existingExercise;
+    }
 }

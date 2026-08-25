@@ -42,21 +42,16 @@ public static class ExerciseEndpoints
                 // await exerciseService.SaveChangesAsync();
                 // return Results.Created($"/exercise/{exercise.Id}", exercise);
                 var exercise = await exerciseService.CreateExerciseAsync(newExercise);
-                return Results.Created($"/exercise/{exercise.Id}", exercise)
+                return Results.Created($"/exercise/{exercise.Id}", exercise);
             });
 
-        group.MapPut("/{id}", async (int id, UpdateExerciseDto updatedExercise, GymContext dbContext) =>
+        group.MapPut("/{id}", async (int id, UpdateExerciseDto updatedExercise, ExerciseService exerciseService) =>
         {
-            var existingExercise = await dbContext.Exercises.FindAsync(id);
-            if (existingExercise is null)
-            {
-                return Results.NotFound();
-            }
-            existingExercise.Name = updatedExercise.Name;
-            existingExercise.Reps = updatedExercise.Reps;
-            await dbContext.SaveChangesAsync();
-            return Results.NoContent();
+            var exercise = await exerciseService.UpdateExerciseAsync(id, updatedExercise);
 
+            return exercise is null
+                ? Results.NotFound()
+                : Results.NoContent();
         });
 
         group.MapDelete("/{id}", async (int id, GymContext dbContext) =>
