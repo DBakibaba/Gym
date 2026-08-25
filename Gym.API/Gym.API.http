@@ -9,12 +9,12 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:5140/exercises/1
+PUT http://localhost:5140/exercises/2
  Content-Type: application/json
 
 {
     "name": "Deadlift",
-    "reps": 1
+    "reps": 111
 }
 
 ###

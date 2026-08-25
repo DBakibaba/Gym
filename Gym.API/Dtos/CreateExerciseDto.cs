@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Gym.API.Dtos;
 
 public record CreateExerciseDto(
 
 
-string Name,
-int Reps
+[Required][StringLength(50)] string Name,
+[Range(1, 100)] int Reps
 
 );

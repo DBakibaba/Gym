@@ -10,12 +10,17 @@ public class ExerciseService(GymContext dbContext)
     {
         return await dbContext.Exercises.ToListAsync();
     }
+    public async Task<Exercise?> GetExercisesByIdAsync(int id)
+    {
+        var exercise = await dbContext.Exercises.FindAsync(id);
 
+        return exercise;
+    }
     public async Task<Exercise> CreateExerciseAsync(CreateExerciseDto newExercise)
     {
         Exercise exercise = new()
         {
-            Name = newExercise.Name,
+            Name = newExercise.Name.ToUpper(),
             Reps = newExercise.Reps
         };
         dbContext.Exercises.Add(exercise);

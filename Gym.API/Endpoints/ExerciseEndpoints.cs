@@ -17,16 +17,16 @@ public static class ExerciseEndpoints
             return Results.Ok(exercises);
 
         });
-        group.MapGet("/{id}", async (int id, GymContext dbContext) =>
+        group.MapGet("/{id}", async (int id, ExerciseService exerciseService) =>
 
                {
-                   var ex = await dbContext.Exercises.FindAsync(id);
+                   var exercise = await exerciseService.GetExercisesByIdAsync(id);
 
-                   return ex is null ? Results.NotFound() : Results.Ok(
+                   return exercise is null ? Results.NotFound() : Results.Ok(
                        new ExerciseDetailDto(
-                           ex.Id,
-                           ex.Name,
-                           ex.Reps
+                           exercise.Id,
+                           exercise.Name,
+                           exercise.Reps
                            ));
 
                });
