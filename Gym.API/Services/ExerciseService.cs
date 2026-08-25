@@ -37,4 +37,26 @@ public class ExerciseService(GymContext dbContext)
 
         return existingExercise;
     }
+    public async Task<bool> DeleteExerciseAsync(int id)
+    {
+        var exercise = await dbContext.Exercises.FindAsync(id);
+
+        if (exercise is null)
+        {
+            return false;
+        }
+
+        dbContext.Exercises.Remove(exercise);
+
+        await dbContext.SaveChangesAsync();
+
+        return true;
+    }
+
+
+
+
+
+
+
 }

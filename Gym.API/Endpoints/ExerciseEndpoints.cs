@@ -54,11 +54,10 @@ public static class ExerciseEndpoints
                 : Results.NoContent();
         });
 
-        group.MapDelete("/{id}", async (int id, GymContext dbContext) =>
+        group.MapDelete("/{id}", async (int id, ExerciseService exerciseService) =>
         {
-            await dbContext.Exercises.Where(Exercise => Exercise.Id == id).ExecuteDeleteAsync();
-
-            return Results.NoContent();
+            var deleted = await exerciseService.DeleteExerciseAsync(id);
+            return deleted ? Results.NoContent() : Results.NotFound();
         });
 
 
