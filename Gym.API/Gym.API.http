@@ -1,4 +1,4 @@
-GET http://localhost:5140/exercises
+GET http://localhost:5140/exercises/2
 ###
 POST http://localhost:5140/exercises
 Content-Type: application/json
@@ -16,3 +16,6 @@ PUT http://localhost:5140/exercises/1
     "name": "Deadlift",
     "reps": 1
 }
+
+###
+DELETE http://localhost:5140/exercises/1
