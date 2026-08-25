@@ -1,5 +1,6 @@
 using Gym.API.Dtos;
 using Gym.API.Models;
+using Gym.API.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gym.API.Endpoints;
@@ -9,11 +10,11 @@ public static class ExerciseEndpoints
     public static void MapExerciseEndpoints(this WebApplication app)
     {
         var group = app.MapGroup("/exercises");
-        group.MapGet("/", async (GymContext dbContext) =>
+        group.MapGet("/", async (ExerciseService exerciseService) =>
         {
-            var exercises = await dbContext.Exercises.ToListAsync();
-
-            return exercises;
+            //var exercises = await dbContext.Exercises.ToListAsync();
+            var exercises = await exerciseService.GetAllExercisesAsync();
+            return Results.Ok(exercises);
 
         });
         group.MapGet("/{id}", async (int id, GymContext dbContext) =>
