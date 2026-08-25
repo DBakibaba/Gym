@@ -31,16 +31,18 @@ public static class ExerciseEndpoints
 
                });
 
-        group.MapPost("/", async (CreateExerciseDto newExercise, GymContext dbContext) =>
+        group.MapPost("/", async (CreateExerciseDto newExercise, ExerciseService exerciseService) =>
             {
-                Exercise exercise = new()
-                {
-                    Name = newExercise.Name,
-                    Reps = newExercise.Reps
-                };
-                dbContext.Exercises.Add(exercise);
-                await dbContext.SaveChangesAsync();
-                return Results.Created($"/exercise/{exercise.Id}", exercise);
+                // Exercise exercise = new()
+                // {
+                //     Name = newExercise.Name,
+                //     Reps = newExercise.Reps
+                // };
+                // exerciseService.Exercises.Add(exercise);
+                // await exerciseService.SaveChangesAsync();
+                // return Results.Created($"/exercise/{exercise.Id}", exercise);
+                var exercise = await exerciseService.CreateExerciseAsync(newExercise);
+                return Results.Created($"/exercise/{exercise.Id}", exercise)
             });
 
         group.MapPut("/{id}", async (int id, UpdateExerciseDto updatedExercise, GymContext dbContext) =>
