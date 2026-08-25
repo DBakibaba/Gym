@@ -3,5 +3,5 @@ namespace Gym.API.Dtos;
 
 public record UpdateExerciseDto(
  [Required][StringLength(50)] string Name,
-[Range(1, 100)] int Reps
+ [Range(1, 100)] int Reps
 );
