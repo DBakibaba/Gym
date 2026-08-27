@@ -15,5 +15,6 @@ builder.Services.AddScoped<WorkoutService>();
 
 var app = builder.Build();
 app.MapExerciseEndpoints();
+app.MapWorkoutEndpoints();
 
 app.Run();

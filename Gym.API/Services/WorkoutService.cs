@@ -26,4 +26,34 @@ public class WorkoutService(GymContext dbContext)
         return workout;
     }
 
+    public async Task<Workout?> GetWorkoutByIdAsync(int id)
+    {
+        var workout = await dbContext.Workouts.FindAsync(id);
+        return workout;
+
+    }
+    public async Task<Workout?> UpdateWorkoutAsync(int id, UpdateWorkoutDto updateWorkout)
+    {
+        var existingWorkout = await dbContext.Workouts.FindAsync(id);
+        if (existingWorkout is null)
+        {
+            return null;
+        }
+        existingWorkout.Name = updateWorkout.Name;
+        await dbContext.SaveChangesAsync();
+
+        return existingWorkout;
+    }
+    public async Task<bool> DeleteWorkoutAsync(int id)
+    {
+        var workout = await dbContext.Workouts.FindAsync(id);
+        if (workout is null)
+        {
+            return false;
+        }
+        dbContext.Workouts.Remove(workout);
+        await dbContext.SaveChangesAsync();
+        return true;
+    }
+
 }

@@ -11,12 +11,20 @@ public static class ExerciseEndpoints
     {
         var group = app.MapGroup("/exercises");
         group.MapGet("/", async (ExerciseService exerciseService) =>
-        {
-            //var exercises = await dbContext.Exercises.ToListAsync();
-            var exercises = await exerciseService.GetAllExercisesAsync();
-            return Results.Ok(exercises);
+  {
+      var exercises = await exerciseService.GetAllExercisesAsync();
 
-        });
+      var exerciseDtos = exercises.Select(exercise =>
+          new ExerciseDetailDto(
+              exercise.Id,
+              exercise.Name,
+              exercise.Reps,
+              exercise.WorkoutId,
+              exercise.Workout.Name
+          ));
+
+      return Results.Ok(exerciseDtos);
+  });
         group.MapGet("/{id}", async (int id, ExerciseService exerciseService) =>
 
                {
@@ -26,7 +34,9 @@ public static class ExerciseEndpoints
                        new ExerciseDetailDto(
                            exercise.Id,
                            exercise.Name,
-                           exercise.Reps
+                           exercise.Reps,
+                           exercise.WorkoutId,
+                           exercise.Workout.Name
                            ));
 
                });

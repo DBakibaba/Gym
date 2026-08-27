@@ -1,12 +1,32 @@
-GET http://localhost:5140/exercises/
+GET http://localhost:5140/exercises
+###
+GET http://localhost:5140/workouts
 ###
 POST http://localhost:5140/exercises
 Content-Type: application/json
 
  
 {
-    "name": "pullup",
-    "reps": 8
+  "name": "dumbbell press",
+  "reps": 10,
+  "workoutId": 1
+}
+###
+POST http://localhost:5140/workouts
+Content-Type: application/json
+
+{
+"name":"push day"
+}
+###
+
+POST http://localhost:5140/exercises
+Content-Type: application/json
+
+{
+  "name": "lateral raise",
+  "reps": 10,
+  "workoutId": 1
 }
 
 ###
@@ -19,4 +39,4 @@ PUT http://localhost:5140/exercises/2
 }
 
 ###
-DELETE http://localhost:5140/exercises/9
+DELETE http://localhost:5140/workouts/2

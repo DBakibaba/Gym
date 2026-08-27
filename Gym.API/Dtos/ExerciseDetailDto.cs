@@ -4,6 +4,8 @@ public record ExerciseDetailDto(
 
 int Id,
 string Name,
-int Reps
+int Reps,
+int WorkoutId,
+string WorkoutName
 
 );

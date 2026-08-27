@@ -8,7 +8,7 @@ public class ExerciseService(GymContext dbContext)
 {
     public async Task<List<Exercise>> GetAllExercisesAsync()
     {
-        return await dbContext.Exercises.ToListAsync();
+        return await dbContext.Exercises.Include(exercise => exercise.Workout).ToListAsync();
     }
     public async Task<Exercise?> GetExercisesByIdAsync(int id)
     {
@@ -21,7 +21,8 @@ public class ExerciseService(GymContext dbContext)
         Exercise exercise = new()
         {
             Name = newExercise.Name.ToUpper(),
-            Reps = newExercise.Reps
+            Reps = newExercise.Reps,
+            WorkoutId = newExercise.WorkoutId
         };
         dbContext.Exercises.Add(exercise);
         await dbContext.SaveChangesAsync();

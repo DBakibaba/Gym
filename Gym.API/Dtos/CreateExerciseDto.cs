@@ -6,6 +6,8 @@ public record CreateExerciseDto(
 
 
 [Required][StringLength(50)] string Name,
-[Range(1, 100)] int Reps
+[Range(1, 100)] int Reps,
+
+[Range(1, int.MaxValue)] int WorkoutId
 
 );
