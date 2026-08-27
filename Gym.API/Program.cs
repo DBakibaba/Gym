@@ -10,6 +10,7 @@ builder.Services.AddValidation();
 builder.Services.AddDbContext<GymContext>(options => options.UseSqlite("Data Source=gym.db"));
 
 builder.Services.AddScoped<ExerciseService>();
+builder.Services.AddScoped<WorkoutService>();
 
 
 var app = builder.Build();
