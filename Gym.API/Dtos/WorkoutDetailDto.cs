@@ -3,6 +3,6 @@ namespace Gym.API.Dtos;
 public record WorkoutDetailDto(
 
 int Id,
-string Name
-
+string Name,
+List<ExerciseSummaryDto> Exercise
 );

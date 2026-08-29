@@ -17,17 +17,31 @@ public static class WorkoutEndpoints
             return Results.Ok(workouts);
         });
 
+        // group.MapGet("/{id}", async (int id, WorkoutService workoutService) =>
+        // {
+        //     var workout = await workoutService.GetWorkoutByIdAsync(id);
+        //     return workout is null ? Results.NotFound() : Results.Ok(
+        //         new WorkoutDetailDto(
+        //             workout.Id,
+        //             workout.Name
+        //         ));
+        // });
+
         group.MapGet("/{id}", async (int id, WorkoutService workoutService) =>
         {
-            var workout = await workoutService.GetWorkoutByIdAsync(id);
+            var workout = await workoutService.GetAllWorkoutsWithExerciseAsync(id);
             return workout is null ? Results.NotFound() : Results.Ok(
-                new WorkoutDetailDto(
-                    workout.Id,
-                    workout.Name
-                ));
+                 new WorkoutDetailDto(
+                     workout.Id,
+                     workout.Name,
+                     workout.Exercise.Select(exercise => new ExerciseSummaryDto(
+                     exercise.Id,
+                     exercise.Name,
+                     exercise.Reps
+                     )).ToList()
+                 ));
+
         });
-
-
         group.MapPost("/", async (CreateWorkoutDto newWorkout, WorkoutService workoutService) =>
         {
             var workout = await workoutService.CreateWorkoutAsync(newWorkout);

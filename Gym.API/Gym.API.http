@@ -1,6 +1,7 @@
 GET http://localhost:5140/exercises
 ###
-GET http://localhost:5140/workouts
+GET http://localhost:5140/workouts/1
+
 ###
 POST http://localhost:5140/exercises
 Content-Type: application/json
