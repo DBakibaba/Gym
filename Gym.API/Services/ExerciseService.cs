@@ -1,5 +1,6 @@
 using Gym.API.Models;
 using Gym.API.Dtos;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Gym.API.Services;
@@ -20,9 +21,13 @@ public class ExerciseService(GymContext dbContext)
     {
         return await dbContext.Exercises.Where(exercise => exercise.WorkoutId == id).ToListAsync();
     }
-    public async Task<Workout> CreateExerciseAsync(CreateExerciseDto newExercise)
+    public async Task<Exercise?> CreateExerciseAsync(CreateExerciseDto newExercise)
     {
-        var workoutExist = await DbContext.Workouts.AnyAsync(workout => workout.Id == newExercise.WorkoutId);
+        var workoutExist = await dbContext.Workouts.AnyAsync(workout => workout.Id == newExercise.WorkoutId);
+        if (!workoutExist)
+        {
+            return null;
+        }
         Exercise exercise = new()
         {
             Name = newExercise.Name.ToUpper(),

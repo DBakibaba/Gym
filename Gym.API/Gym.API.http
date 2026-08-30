@@ -8,9 +8,9 @@ Content-Type: application/json
 
  
 {
-  "name": "dumbbell press",
-  "reps": 10,
-  "workoutId": 1
+  "name": "test",
+  "reps": 12,
+  "workoutId": 999
 }
 ###
 POST http://localhost:5140/workouts
