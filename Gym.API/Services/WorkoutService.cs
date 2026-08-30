@@ -18,6 +18,8 @@ public class WorkoutService(GymContext dbContext)
     {
         return await dbContext.Workouts.Include(workout => workout.Exercise).FirstOrDefaultAsync(workout => workout.Id == id);
     }
+
+
     public async Task<Workout> CreateWorkoutAsync(CreateWorkoutDto newWorkout)
     {
         Workout workout = new()

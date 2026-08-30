@@ -20,8 +20,9 @@ public class ExerciseService(GymContext dbContext)
     {
         return await dbContext.Exercises.Where(exercise => exercise.WorkoutId == id).ToListAsync();
     }
-    public async Task<Exercise> CreateExerciseAsync(CreateExerciseDto newExercise)
+    public async Task<Workout> CreateExerciseAsync(CreateExerciseDto newExercise)
     {
+        var workoutExist = await DbContext.Workouts.AnyAsync(workout => workout.Id == newExercise.WorkoutId);
         Exercise exercise = new()
         {
             Name = newExercise.Name.ToUpper(),

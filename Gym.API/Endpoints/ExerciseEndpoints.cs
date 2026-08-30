@@ -51,8 +51,10 @@ public static class ExerciseEndpoints
                 // exerciseService.Exercises.Add(exercise);
                 // await exerciseService.SaveChangesAsync();
                 // return Results.Created($"/exercise/{exercise.Id}", exercise);
-                var exercise = await exerciseService.CreateExerciseAsync(newExercise);
-                return Results.Created($"/exercise/{exercise.Id}", exercise);
+                // var exercise = await exerciseService.CreateExerciseAsync(newExercise);
+                // return Results.Created($"/exercise/{exercise.Id}", exercise);
+                // Before creating exercise I am gonna check does workotu exist 
+                var workoutExist = await DbContext.Workouts.AnyAsync(workout => workout.Id == newExercise.WorkoutId);
             });
 
         group.MapPut("/{id}", async (int id, UpdateExerciseDto updatedExercise, ExerciseService exerciseService) =>
