@@ -16,6 +16,10 @@ public class ExerciseService(GymContext dbContext)
 
         return exercise;
     }
+    public async Task<List<Exercise>> GetExercisesByWorkoutIdAsync(int id)
+    {
+        return await dbContext.Exercises.Where(exercise => exercise.WorkoutId == id).ToListAsync();
+    }
     public async Task<Exercise> CreateExerciseAsync(CreateExerciseDto newExercise)
     {
         Exercise exercise = new()
