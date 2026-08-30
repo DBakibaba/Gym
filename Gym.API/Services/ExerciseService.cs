@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gym.API.Services;
 
-public class ExerciseService(GymContext dbContext)
+public class ExerciseService(GymContext dbContext, ILogger<ExerciseService> logger)
 {
     public async Task<List<Exercise>> GetAllExercisesAsync()
     {
@@ -23,9 +23,14 @@ public class ExerciseService(GymContext dbContext)
     }
     public async Task<Exercise?> CreateExerciseAsync(CreateExerciseDto newExercise)
     {
+        logger.LogInformation("Creating exercise {ExerciseName} for workout {WorkoutId}",
+                                newExercise.Name,
+                                newExercise.WorkoutId);
+
         var workoutExist = await dbContext.Workouts.AnyAsync(workout => workout.Id == newExercise.WorkoutId);
         if (!workoutExist)
         {
+            logger.LogWarning("Workout {WorkoutId} was not found when creating exercise", newExercise.WorkoutId);
             return null;
         }
         Exercise exercise = new()
