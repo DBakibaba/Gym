@@ -50,6 +50,7 @@ public class ExerciseService(GymContext dbContext, ILogger<ExerciseService> logg
         var existingExercise = await dbContext.Exercises.FindAsync(id);
         if (existingExercise is null)
         {
+            logger.LogWarning("Exercise {ExerciseId} was not found for update", id);
             return null;
         }
         existingExercise.Name = updatedExercise.Name;
@@ -64,11 +65,14 @@ public class ExerciseService(GymContext dbContext, ILogger<ExerciseService> logg
 
         if (exercise is null)
         {
+            logger.LogWarning("Exercise {exerciseId} was not found for deletion.", id);
             return false;
         }
 
         dbContext.Exercises.Remove(exercise);
-
+        logger.LogInformation(
+            "Deleted exercise {ExerciseId}",
+            id);
         await dbContext.SaveChangesAsync();
 
         return true;

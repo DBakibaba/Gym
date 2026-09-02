@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Gym.API.Services;
 
 
-public class WorkoutService(GymContext dbContext)
+public class WorkoutService(GymContext dbContext, ILogger<WorkoutService> logger)
 {
 
     public async Task<List<Workout>> GetAllWorkoutsAsync()
@@ -42,14 +42,17 @@ public class WorkoutService(GymContext dbContext)
     }
     public async Task<Workout?> UpdateWorkoutAsync(int id, UpdateWorkoutDto updateWorkout)
     {
+
+
         var existingWorkout = await dbContext.Workouts.FindAsync(id);
         if (existingWorkout is null)
         {
+            logger.LogWarning("Workut {WorkoutId} is not found for updating workout.", id);
             return null;
         }
         existingWorkout.Name = updateWorkout.Name;
         await dbContext.SaveChangesAsync();
-
+        logger.LogInformation("Updated workout {WorkoutId}", id);
         return existingWorkout;
     }
     public async Task<bool> DeleteWorkoutAsync(int id)
@@ -57,6 +60,7 @@ public class WorkoutService(GymContext dbContext)
         var workout = await dbContext.Workouts.FindAsync(id);
         if (workout is null)
         {
+            logger.LogWarning("workout {workoutId} was not found for deleting.", id);
             return false;
         }
         dbContext.Workouts.Remove(workout);
