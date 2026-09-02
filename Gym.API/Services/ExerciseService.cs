@@ -70,9 +70,7 @@ public class ExerciseService(GymContext dbContext, ILogger<ExerciseService> logg
         }
 
         dbContext.Exercises.Remove(exercise);
-        logger.LogInformation(
-            "Deleted exercise {ExerciseId}",
-            id);
+        logger.LogInformation("Deleted exercise {ExerciseId}", id);
         await dbContext.SaveChangesAsync();
 
         return true;

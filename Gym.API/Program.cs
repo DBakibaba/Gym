@@ -5,9 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
+var connectionString = builder.Configuration.GetConnectionString("GymDatabase");
 
+builder.Services.AddDbContext<GymContext>(options => options.UseSqlite(connectionString));
 
-builder.Services.AddDbContext<GymContext>(options => options.UseSqlite("Data Source=gym.db"));
 builder.Services.AddScoped<ExerciseService>();
 builder.Services.AddScoped<WorkoutService>();
 
