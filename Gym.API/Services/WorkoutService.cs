@@ -30,6 +30,7 @@ public class WorkoutService(GymContext dbContext, ILogger<WorkoutService> logger
         };
         dbContext.Workouts.Add(workout);
         await dbContext.SaveChangesAsync();
+        logger.LogInformation("Created workout");
 
         return workout;
     }
@@ -65,6 +66,7 @@ public class WorkoutService(GymContext dbContext, ILogger<WorkoutService> logger
         }
         dbContext.Workouts.Remove(workout);
         await dbContext.SaveChangesAsync();
+        logger.LogInformation("Deleted workout{wokrutId}", id);
         return true;
     }
 
