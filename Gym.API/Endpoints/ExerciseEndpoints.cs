@@ -39,7 +39,7 @@ public static class ExerciseEndpoints
                            exercise.Workout.Name
                            ));
 
-               });
+               }).WithName("GetExerciseById");
 
         group.MapPost("/", async (CreateExerciseDto newExercise, ExerciseService exerciseService) =>
             {
@@ -52,10 +52,17 @@ public static class ExerciseEndpoints
                 // await exerciseService.SaveChangesAsync();
                 // return Results.Created($"/exercise/{exercise.Id}", exercise);
                 var exercise = await exerciseService.CreateExerciseAsync(newExercise);
-                return exercise is null ? Results.NotFound() : Results.Created($"/exercises/{exercise.Id}", exercise);
+                if (exercise is null)
+                {
+                    return Results.NotFound(
+                        new
+                        {
+                            message = $"Workout{newExercise.WorkoutId} was not found."
+                        });
+                }
 
-
-
+                return Results.CreatedAtRoute("GetExerciseById",
+                new { id = exercise.Id }, exercise);
             });
 
         group.MapPut("/{id}", async (int id, UpdateExerciseDto updatedExercise, ExerciseService exerciseService) =>
