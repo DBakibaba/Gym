@@ -30,3 +30,4 @@ app.UseExceptionHandler(exceptionHandlerApp =>
 
 
 app.Run();
+public partial class Program { }
