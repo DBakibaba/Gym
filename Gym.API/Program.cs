@@ -8,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
 var connectionString = builder.Configuration.GetConnectionString("GymDatabase");
-
+Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
+Console.WriteLine($"Database: {connectionString}");
 builder.Services.AddDbContext<GymContext>(options => options.UseSqlite(connectionString));
 
 builder.Services.AddScoped<ExerciseService>();
