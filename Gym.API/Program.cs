@@ -2,9 +2,11 @@ using Gym.API;
 using Gym.API.Endpoints;
 using Gym.API.Services;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
+builder.Services.AddOpenApi();
 var connectionString = builder.Configuration.GetConnectionString("GymDatabase");
 
 builder.Services.AddDbContext<GymContext>(options => options.UseSqlite(connectionString));
@@ -13,7 +15,8 @@ builder.Services.AddScoped<ExerciseService>();
 builder.Services.AddScoped<WorkoutService>();
 
 var app = builder.Build();
-
+app.MapOpenApi();
+app.MapScalarApiReference();
 app.MapExerciseEndpoints();
 app.MapWorkoutEndpoints();
 app.UseExceptionHandler(exceptionHandlerApp =>
