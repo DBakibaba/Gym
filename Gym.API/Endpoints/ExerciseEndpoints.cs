@@ -39,7 +39,7 @@ public static class ExerciseEndpoints
                            exercise.Workout.Name
                            ));
 
-               }).WithName("GetExerciseById").WithSummary("Get an exercise by ID").WithDescription("Return one exercise including its workout information.");
+               }).WithName("GetExerciseById").WithSummary("Get an exercise by ID").WithDescription("Return one exercise including its workout information.").Produces<ExerciseDetailDto>(StatusCodes.Status200OK).Produces(StatusCodes.Status404NotFound);
 
         group.MapPost("/", async (CreateExerciseDto newExercise, ExerciseService exerciseService) =>
             {
