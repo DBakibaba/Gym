@@ -3,6 +3,8 @@ using Gym.API.Endpoints;
 using Gym.API.Services;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using Gym.API.Models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
@@ -14,12 +16,15 @@ builder.Services.AddDbContext<GymContext>(options => options.UseSqlite(connectio
 
 builder.Services.AddScoped<ExerciseService>();
 builder.Services.AddScoped<WorkoutService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 var app = builder.Build();
 app.MapOpenApi();
 app.MapScalarApiReference();
 app.MapExerciseEndpoints();
 app.MapWorkoutEndpoints();
+app.MapAuthEndpoints();
 app.UseExceptionHandler(exceptionHandlerApp =>
 {
     exceptionHandlerApp.Run(async context =>

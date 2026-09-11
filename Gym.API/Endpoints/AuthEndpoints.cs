@@ -10,22 +10,41 @@ public static class AuthEndpoints
         var group = app.MapGroup("/auth");
 
         group.MapPost("/register", async (RegisterDto registerDto, UserService userService) =>
-    {
-        var user = await userService.RegisterAsync(registerDto);
-        if (user is null)
         {
-            return Results.Conflict(new
+            var user = await userService.RegisterAsync(registerDto);
+            if (user is null)
             {
-                message = "A user with this email already exists."
-            });
-        }
-        return Results.Ok(new
-        {
-            user.Id,
-            user.Email
-        });
-    });
-        return group;
+                return Results.Conflict(new
+                {
+                    message = "A user with this email already exists."
+                });
+            }
 
+            return Results.Created($"/users/{user.Id}", new
+            {
+                user.Id,
+                user.Email
+            });
+        });
+
+        group.MapPost("/login", async (LoginDto loginDto, UserService userService) =>
+        {
+            var user = await userService.LoginAsync(loginDto);
+            if (user is null)
+            {
+                return Results.Conflict(new
+                {
+                    message = "A user with this email doesn't exist or password is wrong"
+                });
+            }
+
+            return Results.Ok(new
+            {
+                user.Id,
+                user.Email
+            });
+        });
+
+        return group;
     }
 }

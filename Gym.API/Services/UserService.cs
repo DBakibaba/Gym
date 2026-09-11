@@ -26,7 +26,22 @@ public class UserService(GymContext dbContext, IPasswordHasher<User> passwordHas
         await dbContext.SaveChangesAsync();
         return user;
     }
+    public async Task<User?> LoginAsync(LoginDto loginDto)
+    {
+        var user = await dbContext.Users.FirstOrDefaultAsync(user => user.Email == loginDto.Email);
+        if (user is null)
+        {
+            return null;
+        }
 
+        var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, loginDto.Password);
+
+        if (result == PasswordVerificationResult.Failed)
+        {
+            return null;
+        }
+        return user;
+    }
 
 
 }
