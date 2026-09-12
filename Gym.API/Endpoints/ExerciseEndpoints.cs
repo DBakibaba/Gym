@@ -24,7 +24,7 @@ public static class ExerciseEndpoints
           ));
 
       return Results.Ok(exerciseDtos);
-  });
+  }).RequireAuthorization();
         group.MapGet("/{id}", async (int id, ExerciseService exerciseService) =>
 
                {
