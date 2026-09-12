@@ -32,10 +32,7 @@ public static class AuthEndpoints
             var user = await userService.LoginAsync(loginDto);
             if (user is null)
             {
-                return Results.Conflict(new
-                {
-                    message = "A user with this email doesn't exist or password is wrong"
-                });
+                return Results.Unauthorized();
             }
 
             return Results.Ok(new
