@@ -18,6 +18,7 @@ builder.Services.AddScoped<ExerciseService>();
 builder.Services.AddScoped<WorkoutService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddScoped<TokenService>();
 
 var app = builder.Build();
 app.MapOpenApi();

@@ -52,7 +52,7 @@ Content-Type: application/json
 
 {
   "email": "dogukan@test.com",
-  "password": "hello123"
+  "password": "hello13"
 }
 
 ###

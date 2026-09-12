@@ -27,7 +27,7 @@ public static class AuthEndpoints
             });
         });
 
-        group.MapPost("/login", async (LoginDto loginDto, UserService userService) =>
+        group.MapPost("/login", async (LoginDto loginDto, UserService userService, TokenService tokenService) =>
         {
             var user = await userService.LoginAsync(loginDto);
             if (user is null)
@@ -35,10 +35,11 @@ public static class AuthEndpoints
                 return Results.Unauthorized();
             }
 
+            var token = tokenService.GenerateToken(user);
+
             return Results.Ok(new
             {
-                user.Id,
-                user.Email
+                token
             });
         });
 
