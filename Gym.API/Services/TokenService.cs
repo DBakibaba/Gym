@@ -28,11 +28,13 @@ public class TokenService(IConfiguration configuration)
             securityKey,
             SecurityAlgorithms.HmacSha256
         );
+        var expireMinutes = configuration.GetValue<int>("Jwt:ExpireMinutes");
+
         var token = new JwtSecurityToken(
             issuer: configuration["Jwt:Issuer"],
             audience: configuration["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(60),
+            expires: DateTime.UtcNow.AddMinutes(expireMinutes),
             signingCredentials: credentials
         );
         return new JwtSecurityTokenHandler().WriteToken(token);

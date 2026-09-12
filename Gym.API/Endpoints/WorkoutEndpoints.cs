@@ -16,7 +16,7 @@ public static class WorkoutEndpoints
 
             return Results.Ok(workouts);
         });
-        group.MapGet("/", async (int id, ExerciseService exerciseService) =>
+        group.MapGet("/{id}/exercises", async (int id, ExerciseService exerciseService) =>
         {
 
             var exercises = await exerciseService.GetExercisesByWorkoutIdAsync(id);
